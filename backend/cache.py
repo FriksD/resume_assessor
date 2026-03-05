@@ -1,13 +1,12 @@
-"""In-memory MD5-keyed cache.
+"""内存 MD5 缓存模块。
 
-Stores parsed resume data so the same PDF is not re-processed.
-Each entry is keyed by MD5(file_bytes) and holds:
+存储已解析的简历数据，避免重复处理相同的 PDF 文件。
+每条记录以 MD5(file_bytes) 为键，存储：
   {"raw_text": str, "extracted": dict}
 
-Limitations:
-- Lives only in the current FC instance process.
-- Eviction is FIFO when size exceeds MAX_SIZE.
-- For production, swap get_cache/set_cache to Redis calls.
+限制：
+- 仅存在于当前 FC 实例进程中。
+- 当缓存数量超过 MAX_SIZE 时，采用 FIFO 策略淘汰最旧的条目。
 """
 
 MAX_SIZE = 500
