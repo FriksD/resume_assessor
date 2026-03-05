@@ -1,104 +1,296 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI 简历洞察系统 | 专业版</title>
+  <title>AI 简历洞察系统</title>
   <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-[#FAFAFA] min-h-screen font-sans text-zinc-900 selection:bg-zinc-200">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+    }
 
-  <header class="bg-white/80 backdrop-blur-md border-b border-zinc-200/80 sticky top-0 z-10">
-    <div class="max-w-4xl mx-auto px-6 py-5 flex items-baseline justify-between">
-      <h1 class="text-[1.15rem] font-semibold tracking-tight text-zinc-900">AI简历评估</h1>
-      <p class="text-zinc-400 text-xs font-medium tracking-widest uppercase">Intelligent Parsing</p>
+    @keyframes fade-in-up {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in-up {
+      animation: fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .stagger-1 {
+      animation-delay: 0.1s;
+    }
+
+    .stagger-2 {
+      animation-delay: 0.2s;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #18181b 0%, #52525b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f8fafc',
+              100: '#f1f5f9',
+              400: '#94a3b8',
+              500: '#64748b',
+              600: '#475569',
+              900: '#0f172a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-[#fafafa] min-h-screen text-slate-800 selection:bg-slate-200 selection:text-slate-900 pb-20">
+
+  <header class="bg-white/80 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 animate-fade-in-up">
+    <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-zinc-900 flex items-center justify-center text-white shadow-sm">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold gradient-text tracking-tight">AI 简历洞察</h1>
+          <p class="text-[0.65rem] font-semibold text-slate-500 tracking-widest uppercase mt-0.5">Resume AI Analytics
+          </p>
+        </div>
+      </div>
+      <div>
+        <span
+          class="px-2.5 py-1 bg-white border border-slate-200 text-slate-600 rounded-md text-xs font-semibold flex items-center gap-2 shadow-sm">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          系统就绪
+        </span>
+      </div>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-6 py-12 space-y-12">
+  <main class="max-w-4xl mx-auto px-6 py-10 space-y-8 relative z-10">
 
-    <section class="bg-white rounded-xl shadow-sm border border-zinc-200/60 p-8 sm:p-10 transition-all">
-      <div class="mb-8 flex items-center justify-between">
-        <h2 class="text-base font-medium text-zinc-800 flex items-center gap-3">
-          <span class="bg-zinc-100 text-zinc-500 px-2 py-0.5 rounded text-xs font-semibold tracking-wide">01</span>
-          档案解析
+    <!-- Section 01: Upload & Parsing -->
+    <section
+      class="bg-white border border-slate-200/80 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] rounded-2xl p-8 sm:p-10 opacity-0 animate-fade-in-up stagger-1">
+      <div class="mb-6 flex items-center justify-between border-b border-slate-100 pb-4">
+        <h2 class="text-base font-semibold text-slate-900 flex items-center gap-2.5">
+          <span
+            class="w-7 h-7 rounded-md bg-slate-100 text-slate-600 flex items-center justify-center text-[0.8rem] font-bold">1</span>
+          智能档案解析
         </h2>
       </div>
 
-      <label id="dropZone" class="group block w-full border border-dashed border-zinc-300 rounded-lg p-12 text-center cursor-pointer hover:bg-zinc-50 hover:border-zinc-400 transition-all duration-300 mb-8">
-        <div class="flex flex-col items-center justify-center gap-3">
-          <svg class="w-7 h-7 text-zinc-400 group-hover:text-zinc-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-          </svg>
+      <label id="dropZone"
+        class="group block w-full border border-dashed border-slate-300 bg-slate-50/50 rounded-xl p-12 text-center cursor-pointer hover:bg-slate-50 hover:border-slate-400 transition-colors duration-200 mb-6 relative overflow-hidden">
+        <div class="flex flex-col items-center justify-center gap-4 relative z-10">
+          <div
+            class="w-14 h-14 rounded-full bg-white border border-slate-200 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-sm">
+            <svg class="w-7 h-7 text-slate-400 group-hover:text-slate-600 transition-colors" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+            </svg>
+          </div>
           <div class="space-y-1">
-            <p class="text-zinc-700 font-medium text-sm" id="dropLabel">上传 PDF 格式简历</p>
-            <p class="text-xs text-zinc-400">点击此处或将文件拖拽至此区域</p>
+            <p class="text-slate-700 font-semibold text-sm transition-colors duration-200" id="dropLabel">点击或拖放 PDF 简历至此
+            </p>
+            <p class="text-xs text-slate-400 font-medium">支持最大 10MB 的标准 PDF 格式文件</p>
           </div>
         </div>
         <input id="resumeFile" type="file" accept=".pdf" class="hidden" onchange="onFileSelected(this)" />
       </label>
 
-      <button onclick="analyzeResume()" class="w-full bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium py-3.5 rounded-lg transition-colors shadow-sm ring-1 ring-inset ring-zinc-900/10">
+      <button onclick="analyzeResume()"
+        class="w-full bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-semibold py-3.5 rounded-lg transition-colors duration-200 shadow-sm flex items-center justify-center gap-2 focus:ring-2 focus:ring-offset-2 focus:ring-zinc-900 outline-none">
+        <svg class="w-4 h-4 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg>
         提取简历数据
       </button>
 
-      <div id="parseResult" class="hidden mt-10 pt-8 border-t border-zinc-100">
-        <div id="parseLoading" class="hidden flex justify-center items-center py-8 text-zinc-500 text-sm gap-3">
-          <svg class="animate-spin h-4 w-4 text-zinc-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-          正在深度解析文档...
+      <div id="parseResult" class="hidden mt-8 pt-6 border-t border-slate-100">
+        <div id="parseLoading"
+          class="hidden flex justify-center items-center py-8 text-slate-600 text-sm font-medium gap-3">
+          <svg class="animate-spin h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
+          </svg>
+          正在深入解析文档网络...
         </div>
-        <div id="parseError" class="hidden bg-red-50/50 text-red-600 border border-red-100 rounded-lg p-4 text-sm"></div>
-        
-        <div id="extractedCards" class="hidden space-y-8">
-          <div id="basicInfoGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-6 gap-x-4"></div>
-          
+        <div id="parseError"
+          class="hidden bg-red-50 text-red-600 border border-red-100 rounded-lg p-4 text-sm font-medium flex items-center gap-2">
+          <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span id="parseErrorText"></span>
+        </div>
+
+        <div id="extractedCards" class="hidden space-y-6 animate-fade-in-up">
+          <div id="basicInfoSection" class="hidden space-y-3">
+            <div class="flex items-center gap-2 px-1">
+              <svg class="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">基础信息</p>
+            </div>
+            <div id="basicInfoGrid"
+              class="grid grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-4 bg-slate-50/80 p-5 rounded-xl border border-slate-100">
+            </div>
+          </div>
+
           <div id="skillsSection" class="hidden space-y-3">
-            <p class="text-[0.65rem] text-zinc-400 font-semibold uppercase tracking-widest">专业技能 / Skills</p>
-            <div id="skillsContainer" class="flex flex-wrap gap-2"></div>
+            <div class="flex items-center gap-2 px-1">
+              <svg class="w-4 h-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+              <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">专业技能</p>
+            </div>
+            <div id="skillsContainer" class="flex flex-wrap gap-2 p-5 rounded-xl border border-slate-100 bg-white">
+            </div>
           </div>
 
           <div id="awardsSection" class="hidden space-y-3">
-            <p class="text-[0.65rem] text-zinc-400 font-semibold uppercase tracking-widest">所获奖项 / Awards</p>
-            <ul id="awardsContainer" class="list-disc list-inside space-y-1 text-sm text-zinc-700"></ul>
+            <div class="flex items-center gap-2 px-1">
+              <svg class="w-4 h-4 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+              <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">所获奖项</p>
+            </div>
+            <div class="p-5 rounded-xl border border-slate-100 bg-white">
+              <ul id="awardsContainer" class="list-disc list-inside space-y-1.5 text-sm text-slate-700"></ul>
+            </div>
           </div>
 
           <div id="projectsSection" class="hidden space-y-3">
-            <p class="text-[0.65rem] text-zinc-400 font-semibold uppercase tracking-widest">项目经历 / Experience</p>
-            <ul id="projectsContainer" class="list-none space-y-3"></ul>
+            <div class="flex items-center gap-2 px-1">
+              <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+              <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">项目经历</p>
+            </div>
+            <ul id="projectsContainer" class="list-none space-y-4"></ul>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm border border-zinc-200/60 p-8 sm:p-10 transition-all">
-      <div class="mb-8 flex items-center justify-between">
-        <h2 class="text-base font-medium text-zinc-800 flex items-center gap-3">
-          <span class="bg-zinc-100 text-zinc-500 px-2 py-0.5 rounded text-xs font-semibold tracking-wide">02</span>
-          匹配度评估
+    <!-- Section 02: Job Matching -->
+    <section
+      class="bg-white border border-slate-200/80 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] rounded-2xl p-8 sm:p-10 opacity-0 animate-fade-in-up stagger-2">
+      <div class="mb-6 flex items-center justify-between border-b border-slate-100 pb-4">
+        <h2 class="text-base font-semibold text-slate-900 flex items-center gap-2.5">
+          <span
+            class="w-7 h-7 rounded-md bg-slate-100 text-slate-600 flex items-center justify-center text-[0.8rem] font-bold">2</span>
+          综合匹配度评估
         </h2>
       </div>
 
-      <div class="mb-8">
+      <div class="mb-6 flex flex-col gap-2">
+        <label for="jobDescription" class="text-sm font-medium text-slate-800">目标职位描述 (JD)</label>
         <textarea id="jobDescription" rows="6"
-                  class="w-full bg-zinc-50/50 border border-zinc-200 rounded-lg p-5 text-sm text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-400 focus:bg-white resize-none transition-all"
-                  placeholder="输入或粘贴目标岗位的 JD (Job Description) 内容..."></textarea>
+          class="w-full bg-slate-50 border border-slate-200 rounded-xl p-5 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-slate-400 focus:bg-white transition-colors"
+          placeholder="在此处输入或粘贴详细的岗位要求，系统将为您生成智能匹配报告..."></textarea>
       </div>
 
-      <button onclick="matchResume()" class="w-full bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium py-3.5 rounded-lg transition-colors shadow-sm ring-1 ring-inset ring-zinc-900/10">
-        执行评估
+      <button onclick="matchResume()"
+        class="w-full bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-semibold py-3.5 rounded-lg transition-colors duration-200 shadow-sm flex items-center justify-center gap-2 focus:ring-2 focus:ring-offset-2 focus:ring-zinc-900 outline-none">
+        <svg class="w-4 h-4 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        </svg>
+        执行评估与匹配
       </button>
 
-      <div id="scoreResult" class="hidden mt-10 pt-8 border-t border-zinc-100">
-        <div id="scoreLoading" class="hidden flex justify-center items-center py-8 text-zinc-500 text-sm gap-3">
-          <svg class="animate-spin h-4 w-4 text-zinc-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-          AI 正在进行逻辑比对...
+      <div id="scoreResult" class="hidden mt-8 pt-6 border-t border-slate-100">
+        <div id="scoreLoading"
+          class="hidden flex justify-center items-center py-8 text-slate-600 text-sm font-medium gap-3">
+          <svg class="animate-spin h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+              d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83">
+            </path>
+          </svg>
+          正在测算匹配度指标...
         </div>
-        <div id="scoreError" class="hidden bg-red-50/50 text-red-600 border border-red-100 rounded-lg p-4 text-sm"></div>
-        <div id="scoreCards" class="hidden space-y-8"></div>
+        <div id="scoreError"
+          class="hidden bg-red-50 text-red-600 border border-red-100 rounded-lg p-4 text-sm font-medium flex items-center gap-2">
+          <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span id="scoreErrorText"></span>
+        </div>
+        <div id="scoreCards" class="hidden space-y-6 animate-fade-in-up"></div>
       </div>
     </section>
 
   </main>
+
+  <style>
+    @keyframes progress {
+      from {
+        stroke-dashoffset: 251.2;
+      }
+
+      to {
+        stroke-dashoffset: var(--target-offset);
+      }
+    }
+  </style>
 
   <script>
     const API_BASE = 'https://resume-assessor-jjvpvorajq.cn-hangzhou.fcapp.run';
@@ -106,23 +298,31 @@
 
     function onFileSelected(input) {
       const label = document.getElementById('dropLabel');
+      const dropZone = document.getElementById('dropZone');
       if (input.files[0]) {
         label.textContent = input.files[0].name;
-        label.classList.add('text-zinc-900');
-        label.classList.remove('text-zinc-700');
+        label.classList.add('text-slate-900', 'font-bold');
+        label.classList.remove('text-slate-700', 'font-semibold');
+        dropZone.classList.add('border-slate-400', 'bg-slate-100/50');
       } else {
-        label.textContent = '上传 PDF 格式简历';
-        label.classList.remove('text-zinc-900');
-        label.classList.add('text-zinc-700');
+        label.textContent = '点击或拖放 PDF 简历至此';
+        label.classList.remove('text-slate-900', 'font-bold');
+        label.classList.add('text-slate-700', 'font-semibold');
+        dropZone.classList.remove('border-slate-400', 'bg-slate-100/50');
       }
     }
 
     const dropZone = document.getElementById('dropZone');
-    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('bg-zinc-50', 'border-zinc-400'); });
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('bg-zinc-50', 'border-zinc-400'));
+    dropZone.addEventListener('dragover', e => {
+      e.preventDefault();
+      dropZone.classList.add('border-slate-400', 'bg-slate-100/50');
+    });
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('border-slate-400', 'bg-slate-100/50');
+    });
     dropZone.addEventListener('drop', e => {
       e.preventDefault();
-      dropZone.classList.remove('bg-zinc-50', 'border-zinc-400');
+      dropZone.classList.remove('border-slate-400', 'bg-slate-100/50');
       const file = e.dataTransfer.files[0];
       if (file && file.name.toLowerCase().endsWith('.pdf')) {
         const input = document.getElementById('resumeFile');
@@ -148,7 +348,7 @@
         const data = await res.json();
 
         if (!res.ok) {
-          showError('parseError', data.error || '解析失败，请重试');
+          showError('parseError', 'parseErrorText', data.error || '解析失败，请重试');
           return;
         }
 
@@ -156,14 +356,14 @@
         renderExtracted(data.extracted, data.cache_hit);
         document.getElementById('parseLoading').classList.add('hidden');
       } catch (err) {
-        showError('parseError', '网络错误：' + err.message);
+        showError('parseError', 'parseErrorText', '网络错误：' + err.message);
       }
     }
 
     function renderExtracted(info, cacheHit) {
       document.getElementById('extractedCards').classList.remove('hidden');
-      
-      // 1. 渲染基础信息
+
+      const basicSec = document.getElementById('basicInfoSection');
       const basicContainer = document.getElementById('basicInfoGrid');
       basicContainer.innerHTML = '';
       const labels = {
@@ -172,30 +372,35 @@
         work_years: '工作年限', education: '教育背景',
       };
 
+      let hasBasic = false;
       for (const [key, label] of Object.entries(labels)) {
         const val = info[key];
         if (!val) continue;
+        hasBasic = true;
         basicContainer.insertAdjacentHTML('beforeend', `
-          <div>
-            <p class="text-[0.65rem] text-zinc-400 font-semibold uppercase tracking-widest mb-1">${label}</p>
-            <p class="text-sm text-zinc-800 font-medium">${escHtml(String(val))}</p>
+          <div class="group">
+            <p class="text-[0.7rem] text-slate-500 font-medium mb-1">${label}</p>
+            <p class="text-sm text-slate-900 font-semibold">${escHtml(String(val))}</p>
           </div>
         `);
       }
+      if (hasBasic) {
+        basicSec.classList.remove('hidden');
+      } else {
+        basicSec.classList.add('hidden');
+      }
 
-      // 2. 渲染技能标签 (新增)
       const skillsSec = document.getElementById('skillsSection');
       const skillsContainer = document.getElementById('skillsContainer');
       if (Array.isArray(info.skills) && info.skills.length > 0) {
-        skillsContainer.innerHTML = info.skills.map(s => 
-          `<span class="bg-zinc-100/80 border border-zinc-200 text-zinc-700 text-xs px-2.5 py-1 rounded-md font-medium">${escHtml(s)}</span>`
+        skillsContainer.innerHTML = info.skills.map((s, i) =>
+          `<span class="bg-blue-50/50 border border-blue-100 text-blue-700 text-xs px-2.5 py-1 rounded-md font-medium">${escHtml(s)}</span>`
         ).join('');
         skillsSec.classList.remove('hidden');
       } else {
         skillsSec.classList.add('hidden');
       }
 
-      // 3. 渲染所获奖项
       const awardsSec = document.getElementById('awardsSection');
       const awardsContainer = document.getElementById('awardsContainer');
       if (Array.isArray(info.awards) && info.awards.length > 0) {
@@ -207,27 +412,25 @@
         awardsSec.classList.add('hidden');
       }
 
-      // 4. 渲染项目经历
       const projSec = document.getElementById('projectsSection');
       const projContainer = document.getElementById('projectsContainer');
       if (Array.isArray(info.project_experience) && info.project_experience.length > 0) {
         projContainer.innerHTML = info.project_experience.map(project => {
           if (project && typeof project === 'object') {
-            const title = [project.duration, project.project_name].filter(Boolean).join(' ');
+            const title = [project.duration, project.project_name].filter(Boolean).join(' | ');
             const detailList = Array.isArray(project.details) ? project.details : [];
             const detailsHtml = detailList.length > 0
-              ? `<ul class="mt-2 space-y-1">${detailList.map(item => `<li class="text-sm text-zinc-700 leading-relaxed">- ${escHtml(item)}</li>`).join('')}</ul>`
+              ? `<ul class="mt-3 space-y-1.5">${detailList.map(item => `<li class="text-sm text-slate-600 flex gap-2"><span class="text-slate-300 shrink-0">-</span><span>${escHtml(item)}</span></li>`).join('')}</ul>`
               : '';
 
             return `
-              <li class="bg-zinc-50/50 border border-zinc-100 rounded-lg p-4">
-                <p class="text-sm text-zinc-800 font-medium">${escHtml(title || '项目经历')}</p>
+              <li class="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-sm transition-shadow">
+                <p class="text-sm text-slate-900 font-semibold mb-1">${escHtml(title || '项目经历')}</p>
                 ${detailsHtml}
               </li>
             `;
           }
-
-          return `<li class="text-sm text-zinc-700 leading-relaxed bg-zinc-50/50 border border-zinc-100 rounded-lg p-4">${escHtml(project)}</li>`;
+          return `<li class="text-sm text-slate-700 bg-white border border-slate-200 rounded-xl p-5 hover:shadow-sm transition-shadow">${escHtml(project)}</li>`;
         }).join('');
         projSec.classList.remove('hidden');
       } else {
@@ -238,7 +441,7 @@
     async function matchResume() {
       if (!currentFileHash) { alert('请先完成第一步：解析简历'); return; }
       const jd = document.getElementById('jobDescription').value.trim();
-      if (!jd) { alert('请输入岗位描述'); return; }
+      if (!jd) { alert('请输入岗位描述以便进行匹配评估'); return; }
 
       showSection('scoreResult');
       showLoading('scoreLoading', 'scoreError', 'scoreCards');
@@ -252,61 +455,78 @@
         const data = await res.json();
 
         if (res.status === 404) {
-          showError('scoreError', '会话已过期，请重新上传并解析简历');
+          showError('scoreError', 'scoreErrorText', '会话已过期，请重新上传并解析简历');
           currentFileHash = null;
           return;
         }
         if (!res.ok) {
-          showError('scoreError', data.error || '评分失败，请重试');
+          showError('scoreError', 'scoreErrorText', data.error || '评分失败，请重试');
           return;
         }
 
         renderScore(data);
         document.getElementById('scoreLoading').classList.add('hidden');
       } catch (err) {
-        showError('scoreError', '网络错误：' + err.message);
+        showError('scoreError', 'scoreErrorText', '网络错误：' + err.message);
       }
     }
 
     function renderScore(data) {
       const score = Number(data.score) || 0;
-      let theme = { color: 'text-zinc-900', border: 'border-zinc-900', label: '良好匹配' };
-      
+      let theme = { color: 'text-slate-800', ring: 'stroke-slate-800', badge: 'bg-slate-100 text-slate-600', text: '常规匹配' };
+
       if (score >= 80) {
-        theme = { color: 'text-emerald-700', border: 'border-emerald-700', label: '高度匹配' };
+        theme = { color: 'text-emerald-600', ring: 'stroke-emerald-500', badge: 'bg-emerald-50 text-emerald-600 border border-emerald-100', text: '高度匹配' };
       } else if (score < 60) {
-        theme = { color: 'text-red-700', border: 'border-red-700', label: '建议提升' };
+        theme = { color: 'text-rose-600', ring: 'stroke-rose-500', badge: 'bg-rose-50 text-rose-600 border border-rose-100', text: '建议提升' };
+      } else {
+        theme = { color: 'text-blue-600', ring: 'stroke-blue-500', badge: 'bg-blue-50 text-blue-600 border border-blue-100', text: '潜在匹配' };
       }
 
+      const offset = 251.2 - (251.2 * score) / 100;
+
       const matched = (data.matched_keywords || []).map(k =>
-        `<span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[0.7rem] font-medium px-2 py-1 rounded">${escHtml(k)}</span>`
+        `<span class="bg-emerald-50 text-emerald-700 border border-emerald-100 text-xs font-medium px-2 py-1 rounded-md flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>${escHtml(k)}</span>`
       ).join('');
 
       const missing = (data.missing_keywords || []).map(k =>
-        `<span class="bg-red-50 text-red-700 border border-red-200/60 text-[0.7rem] font-medium px-2 py-1 rounded">${escHtml(k)}</span>`
+        `<span class="bg-rose-50 text-rose-700 border border-rose-100 text-xs font-medium px-2 py-1 rounded-md flex items-center gap-1"><svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>${escHtml(k)}</span>`
       ).join('');
 
       const container = document.getElementById('scoreCards');
       container.innerHTML = `
-        <div class="flex flex-col sm:flex-row items-start gap-6">
-          <div class="w-20 h-20 rounded-full border-[3px] ${theme.border} flex flex-col items-center justify-center shrink-0">
-            <span class="text-2xl font-bold ${theme.color} leading-none mb-0.5">${score}</span>
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 border border-slate-200 bg-slate-50/50 rounded-xl p-6 sm:p-8">
+          
+          <div class="relative w-24 h-24 shrink-0 flex items-center justify-center">
+            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" fill="transparent" stroke="currentColor" stroke-width="8" class="text-slate-200"></circle>
+              <circle cx="50" cy="50" r="40" fill="transparent" stroke="currentColor" stroke-width="8" class="${theme.ring} transition-all duration-1000 ease-out" 
+                      stroke-dasharray="251.2" stroke-dashoffset="251.2" 
+                      style="--target-offset: ${offset}; animation: progress 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.1s; stroke-linecap: round;"></circle>
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span class="text-2xl font-bold ${theme.color}">${score}</span>
+            </div>
           </div>
-          <div class="flex-1 pt-1">
-            <h3 class="text-[0.65rem] font-semibold uppercase tracking-widest text-zinc-400 mb-2">综合评估摘要 / Summary</h3>
-            <p class="text-zinc-700 text-sm leading-relaxed">${escHtml(data.summary || '暂无总结')}</p>
+
+          <div class="flex-1 text-center sm:text-left mt-2 sm:mt-0">
+             <div class="inline-block ${theme.badge} text-[0.65rem] font-bold px-2 py-0.5 rounded mb-2">
+              ${theme.text}
+            </div>
+            <h3 class="text-sm font-semibold text-slate-900 mb-1.5">综合匹配分析摘要</h3>
+            <p class="text-slate-600 text-[0.9rem] leading-relaxed">${escHtml(data.summary || '暂无总结')}</p>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-4 border-t border-zinc-100 pt-8">
-          <div class="space-y-3">
-            <h4 class="text-[0.65rem] font-semibold uppercase tracking-widest text-zinc-400">已匹配关键词 / Matched</h4>
-            <div class="flex flex-wrap gap-2">${matched || '<span class="text-xs text-zinc-400">无明显匹配项</span>'}</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
+          <div>
+            <h4 class="text-sm font-semibold text-slate-800 mb-3 flex items-center gap-1.5">已匹配能力模型</h4>
+            <div class="flex flex-wrap gap-2">${matched || '<span class="text-xs text-slate-400">无明显匹配项</span>'}</div>
           </div>
           
-          <div class="space-y-3">
-            <h4 class="text-[0.65rem] font-semibold uppercase tracking-widest text-zinc-400">建议补充技能 / Missing</h4>
-            <div class="flex flex-wrap gap-2">${missing || '<span class="text-xs text-zinc-400">无明显缺失项</span>'}</div>
+          <div>
+            <h4 class="text-sm font-semibold text-slate-800 mb-3 flex items-center gap-1.5">核心缺失与建议</h4>
+            <div class="flex flex-wrap gap-2">${missing || '<span class="text-xs text-slate-400">无明显缺失项</span>'}</div>
           </div>
         </div>
       `;
@@ -323,18 +543,18 @@
       document.getElementById(contentId).classList.add('hidden');
     }
 
-    function showError(errorId, msg) {
-      const el = document.getElementById(errorId);
-      el.textContent = msg;
-      el.classList.remove('hidden');
+    function showError(errorId, textId, msg) {
+      document.getElementById(textId).textContent = msg;
+      document.getElementById(errorId).classList.remove('hidden');
       const loadingId = errorId.replace('Error', 'Loading');
       document.getElementById(loadingId)?.classList.add('hidden');
     }
 
     function escHtml(value) {
       const str = value == null ? '' : String(value);
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
   </script>
 </body>
+
 </html>
