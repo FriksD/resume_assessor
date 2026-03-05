@@ -3,78 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI 简历评估系统</title>
+  <title>AI 简历洞察系统 | 专业版</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50 min-h-screen font-sans text-slate-900">
+<body class="bg-[#FAFAFA] min-h-screen font-sans text-zinc-900 selection:bg-zinc-200">
 
-  <header class="bg-white border-b border-slate-200 py-5 sticky top-0 z-10">
-    <div class="max-w-4xl mx-auto px-6 flex items-baseline justify-between">
-      <h1 class="text-xl font-bold tracking-tight text-slate-900">AI 简历评估</h1>
-      <p class="text-slate-500 text-sm font-medium">智能提取 · 岗位匹配</p>
+  <header class="bg-white/80 backdrop-blur-md border-b border-zinc-200/80 sticky top-0 z-10">
+    <div class="max-w-4xl mx-auto px-6 py-5 flex items-baseline justify-between">
+      <h1 class="text-[1.15rem] font-semibold tracking-tight text-zinc-900">Resume Insights</h1>
+      <p class="text-zinc-400 text-xs font-medium tracking-widest uppercase">Intelligent Parsing</p>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-6 py-10 space-y-10">
+  <main class="max-w-4xl mx-auto px-6 py-12 space-y-12">
 
-    <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
-      <div class="mb-6">
-        <h2 class="text-lg font-semibold text-slate-800 flex items-center gap-2">
-          <span class="bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-md text-sm">Step 1</span>
-          上传并解析简历
+    <section class="bg-white rounded-xl shadow-sm border border-zinc-200/60 p-8 sm:p-10 transition-all">
+      <div class="mb-8 flex items-center justify-between">
+        <h2 class="text-base font-medium text-zinc-800 flex items-center gap-3">
+          <span class="bg-zinc-100 text-zinc-500 px-2 py-0.5 rounded text-xs font-semibold tracking-wide">01</span>
+          档案解析
         </h2>
       </div>
 
-      <label id="dropZone" class="group block w-full border-2 border-dashed border-slate-300 rounded-lg p-10 text-center cursor-pointer hover:bg-blue-50 hover:border-blue-400 transition-all duration-200 mb-6">
-        <div class="flex flex-col items-center justify-center gap-2">
-          <svg class="w-8 h-8 text-slate-400 group-hover:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+      <label id="dropZone" class="group block w-full border border-dashed border-zinc-300 rounded-lg p-12 text-center cursor-pointer hover:bg-zinc-50 hover:border-zinc-400 transition-all duration-300 mb-8">
+        <div class="flex flex-col items-center justify-center gap-3">
+          <svg class="w-7 h-7 text-zinc-400 group-hover:text-zinc-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
           </svg>
-          <p class="text-slate-700 font-medium" id="dropLabel">点击选择或拖拽 PDF 文件至此</p>
-          <p class="text-sm text-slate-400">仅支持 PDF 格式文件</p>
+          <div class="space-y-1">
+            <p class="text-zinc-700 font-medium text-sm" id="dropLabel">上传 PDF 格式简历</p>
+            <p class="text-xs text-zinc-400">点击此处或将文件拖拽至此区域</p>
+          </div>
         </div>
         <input id="resumeFile" type="file" accept=".pdf" class="hidden" onchange="onFileSelected(this)" />
       </label>
 
-      <button onclick="analyzeResume()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-lg transition-colors shadow-sm">
-        解析简历
+      <button onclick="analyzeResume()" class="w-full bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium py-3.5 rounded-lg transition-colors shadow-sm ring-1 ring-inset ring-zinc-900/10">
+        提取简历数据
       </button>
 
-      <div id="parseResult" class="hidden mt-8 pt-6 border-t border-slate-100">
-        <div id="parseLoading" class="hidden flex justify-center items-center py-8 text-slate-500 text-sm">
-          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-          AI 正在提取信息，请稍候...
+      <div id="parseResult" class="hidden mt-10 pt-8 border-t border-zinc-100">
+        <div id="parseLoading" class="hidden flex justify-center items-center py-8 text-zinc-500 text-sm gap-3">
+          <svg class="animate-spin h-4 w-4 text-zinc-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+          正在深度解析文档...
         </div>
-        <div id="parseError" class="hidden bg-red-50 text-red-600 border border-red-100 rounded-lg p-4 text-sm"></div>
-        <div id="extractedCards" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        <div id="parseError" class="hidden bg-red-50/50 text-red-600 border border-red-100 rounded-lg p-4 text-sm"></div>
+        
+        <div id="extractedCards" class="hidden space-y-8">
+          <div id="basicInfoGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-6 gap-x-4"></div>
+          
+          <div id="skillsSection" class="hidden space-y-3">
+            <p class="text-[0.65rem] text-zinc-400 font-semibold uppercase tracking-widest">专业技能 / Skills</p>
+            <div id="skillsContainer" class="flex flex-wrap gap-2"></div>
+          </div>
+
+          <div id="projectsSection" class="hidden space-y-3">
+            <p class="text-[0.65rem] text-zinc-400 font-semibold uppercase tracking-widest">项目经历 / Experience</p>
+            <ul id="projectsContainer" class="list-none space-y-3"></ul>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
-      <div class="mb-6">
-        <h2 class="text-lg font-semibold text-slate-800 flex items-center gap-2">
-          <span class="bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-md text-sm">Step 2</span>
-          岗位匹配分析
+    <section class="bg-white rounded-xl shadow-sm border border-zinc-200/60 p-8 sm:p-10 transition-all">
+      <div class="mb-8 flex items-center justify-between">
+        <h2 class="text-base font-medium text-zinc-800 flex items-center gap-3">
+          <span class="bg-zinc-100 text-zinc-500 px-2 py-0.5 rounded text-xs font-semibold tracking-wide">02</span>
+          匹配度评估
         </h2>
       </div>
 
-      <div class="mb-6">
-        <textarea id="jobDescription" rows="5"
-                  class="w-full border border-slate-300 rounded-lg p-4 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none transition-colors"
-                  placeholder="请在此粘贴目标岗位的 JD (Job Description)..."></textarea>
+      <div class="mb-8">
+        <textarea id="jobDescription" rows="6"
+                  class="w-full bg-zinc-50/50 border border-zinc-200 rounded-lg p-5 text-sm text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-400 focus:bg-white resize-none transition-all"
+                  placeholder="输入或粘贴目标岗位的 JD (Job Description) 内容..."></textarea>
       </div>
 
-      <button onclick="matchResume()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-colors shadow-sm">
-        开始评估匹配度
+      <button onclick="matchResume()" class="w-full bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium py-3.5 rounded-lg transition-colors shadow-sm ring-1 ring-inset ring-zinc-900/10">
+        执行双向评估
       </button>
 
-      <div id="scoreResult" class="hidden mt-8 pt-6 border-t border-slate-100">
-        <div id="scoreLoading" class="hidden flex justify-center items-center py-8 text-slate-500 text-sm">
-          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-slate-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-          正在生成深度评估报告...
+      <div id="scoreResult" class="hidden mt-10 pt-8 border-t border-zinc-100">
+        <div id="scoreLoading" class="hidden flex justify-center items-center py-8 text-zinc-500 text-sm gap-3">
+          <svg class="animate-spin h-4 w-4 text-zinc-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+          AI 正在进行逻辑比对...
         </div>
-        <div id="scoreError" class="hidden bg-red-50 text-red-600 border border-red-100 rounded-lg p-4 text-sm"></div>
-        <div id="scoreCards" class="hidden space-y-6"></div>
+        <div id="scoreError" class="hidden bg-red-50/50 text-red-600 border border-red-100 rounded-lg p-4 text-sm"></div>
+        <div id="scoreCards" class="hidden space-y-8"></div>
       </div>
     </section>
 
@@ -86,20 +101,23 @@
 
     function onFileSelected(input) {
       const label = document.getElementById('dropLabel');
-      label.textContent = input.files[0] ? input.files[0].name : '点击选择或拖拽 PDF 文件至此';
       if (input.files[0]) {
-        label.classList.add('text-blue-600');
-        label.classList.remove('text-slate-700');
+        label.textContent = input.files[0].name;
+        label.classList.add('text-zinc-900');
+        label.classList.remove('text-zinc-700');
+      } else {
+        label.textContent = '上传 PDF 格式简历';
+        label.classList.remove('text-zinc-900');
+        label.classList.add('text-zinc-700');
       }
     }
 
     const dropZone = document.getElementById('dropZone');
-    // 删除了原本引发 bug 的 click 监听器
-    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('bg-blue-50', 'border-blue-400'); });
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('bg-blue-50', 'border-blue-400'));
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('bg-zinc-50', 'border-zinc-400'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('bg-zinc-50', 'border-zinc-400'));
     dropZone.addEventListener('drop', e => {
       e.preventDefault();
-      dropZone.classList.remove('bg-blue-50', 'border-blue-400');
+      dropZone.classList.remove('bg-zinc-50', 'border-zinc-400');
       const file = e.dataTransfer.files[0];
       if (file && file.name.toLowerCase().endsWith('.pdf')) {
         const input = document.getElementById('resumeFile');
@@ -131,8 +149,6 @@
 
         currentFileHash = data.file_hash;
         renderExtracted(data.extracted, data.cache_hit);
-        
-        // 解析完成后清空加载状态
         document.getElementById('parseLoading').classList.add('hidden');
       } catch (err) {
         showError('parseError', '网络错误：' + err.message);
@@ -140,46 +156,51 @@
     }
 
     function renderExtracted(info, cacheHit) {
-      const container = document.getElementById('extractedCards');
-      container.innerHTML = '';
-
+      document.getElementById('extractedCards').classList.remove('hidden');
+      
+      // 1. 渲染基础信息
+      const basicContainer = document.getElementById('basicInfoGrid');
+      basicContainer.innerHTML = '';
       const labels = {
         name: '姓名', phone: '电话', email: '邮箱', address: '地址',
         job_intent: '求职意向', expected_salary: '期望薪资',
-        work_years: '工作年限', education: '学历背景',
+        work_years: '工作年限', education: '教育背景',
       };
 
       for (const [key, label] of Object.entries(labels)) {
         const val = info[key];
         if (!val) continue;
-        container.insertAdjacentHTML('beforeend', `
-          <div class="bg-slate-50 border border-slate-100 rounded-lg p-4">
-            <p class="text-xs text-slate-400 mb-1">${label}</p>
-            <p class="text-sm text-slate-800 font-medium">${escHtml(String(val))}</p>
+        basicContainer.insertAdjacentHTML('beforeend', `
+          <div>
+            <p class="text-[0.65rem] text-zinc-400 font-semibold uppercase tracking-widest mb-1">${label}</p>
+            <p class="text-sm text-zinc-800 font-medium">${escHtml(String(val))}</p>
           </div>
         `);
       }
 
+      // 2. 渲染技能标签 (新增)
+      const skillsSec = document.getElementById('skillsSection');
+      const skillsContainer = document.getElementById('skillsContainer');
+      if (Array.isArray(info.skills) && info.skills.length > 0) {
+        skillsContainer.innerHTML = info.skills.map(s => 
+          `<span class="bg-zinc-100/80 border border-zinc-200 text-zinc-700 text-xs px-2.5 py-1 rounded-md font-medium">${escHtml(s)}</span>`
+        ).join('');
+        skillsSec.classList.remove('hidden');
+      } else {
+        skillsSec.classList.add('hidden');
+      }
+
+      // 3. 渲染项目经历
+      const projSec = document.getElementById('projectsSection');
+      const projContainer = document.getElementById('projectsContainer');
       if (Array.isArray(info.project_experience) && info.project_experience.length > 0) {
-        const items = info.project_experience.map(p => `<li class="text-sm text-slate-700 leading-relaxed">${escHtml(p)}</li>`).join('');
-        container.insertAdjacentHTML('beforeend', `
-          <div class="bg-slate-50 border border-slate-100 rounded-lg p-5 col-span-1 sm:col-span-2 lg:col-span-3">
-            <p class="text-xs text-slate-400 mb-3 uppercase tracking-wider">核心项目经历</p>
-            <ul class="list-disc list-outside ml-4 space-y-2">${items}</ul>
-          </div>
-        `);
+        projContainer.innerHTML = info.project_experience.map(p => 
+          `<li class="text-sm text-zinc-700 leading-relaxed bg-zinc-50/50 border border-zinc-100 rounded-lg p-4">${escHtml(p)}</li>`
+        ).join('');
+        projSec.classList.remove('hidden');
+      } else {
+        projSec.classList.add('hidden');
       }
-
-      if (cacheHit) {
-        container.insertAdjacentHTML('beforeend', `
-          <p class="text-xs text-slate-400 col-span-1 sm:col-span-2 lg:col-span-3 flex items-center gap-1">
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            从系统缓存极速读取
-          </p>
-        `);
-      }
-
-      container.classList.remove('hidden');
     }
 
     async function matchResume() {
@@ -217,51 +238,43 @@
 
     function renderScore(data) {
       const score = Number(data.score) || 0;
-      let theme = { color: 'text-slate-800', border: 'border-slate-800', bg: 'bg-slate-50' };
+      let theme = { color: 'text-zinc-900', border: 'border-zinc-900', label: '良好匹配' };
       
       if (score >= 80) {
-        theme = { color: 'text-blue-600', border: 'border-blue-600', bg: 'bg-blue-50' };
-      } else if (score >= 60) {
-        theme = { color: 'text-amber-500', border: 'border-amber-500', bg: 'bg-amber-50' };
-      } else {
-        theme = { color: 'text-red-500', border: 'border-red-500', bg: 'bg-red-50' };
+        theme = { color: 'text-emerald-700', border: 'border-emerald-700', label: '高度匹配' };
+      } else if (score < 60) {
+        theme = { color: 'text-red-700', border: 'border-red-700', label: '建议提升' };
       }
 
       const matched = (data.matched_keywords || []).map(k =>
-        `<span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs px-2.5 py-1 rounded-md">${escHtml(k)}</span>`
+        `<span class="bg-emerald-50 text-emerald-700 border border-emerald-200/60 text-[0.7rem] font-medium px-2 py-1 rounded">${escHtml(k)}</span>`
       ).join('');
 
       const missing = (data.missing_keywords || []).map(k =>
-        `<span class="bg-rose-50 text-rose-700 border border-rose-200 text-xs px-2.5 py-1 rounded-md">${escHtml(k)}</span>`
+        `<span class="bg-red-50 text-red-700 border border-red-200/60 text-[0.7rem] font-medium px-2 py-1 rounded">${escHtml(k)}</span>`
       ).join('');
 
       const container = document.getElementById('scoreCards');
       container.innerHTML = `
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 p-6 ${theme.bg} rounded-xl border ${theme.border} border-opacity-20">
-          <div class="w-24 h-24 rounded-full border-4 ${theme.border} flex items-center justify-center shrink-0 bg-white">
-            <span class="text-4xl font-bold ${theme.color}">${score}</span>
+        <div class="flex flex-col sm:flex-row items-start gap-6">
+          <div class="w-20 h-20 rounded-full border-[3px] ${theme.border} flex flex-col items-center justify-center shrink-0">
+            <span class="text-2xl font-bold ${theme.color} leading-none mb-0.5">${score}</span>
           </div>
-          <div class="flex-1">
-            <h3 class="text-sm font-semibold text-slate-800 mb-2">综合评估</h3>
-            <p class="text-slate-600 text-sm leading-relaxed">${escHtml(data.summary || '暂无总结')}</p>
+          <div class="flex-1 pt-1">
+            <h3 class="text-[0.65rem] font-semibold uppercase tracking-widest text-zinc-400 mb-2">综合评估摘要 / Summary</h3>
+            <p class="text-zinc-700 text-sm leading-relaxed">${escHtml(data.summary || '暂无总结')}</p>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-4 border-t border-zinc-100 pt-8">
           <div class="space-y-3">
-            <h4 class="text-sm font-medium text-slate-700 flex items-center gap-2">
-              <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-              已匹配关键词
-            </h4>
-            <div class="flex flex-wrap gap-2">${matched || '<span class="text-xs text-slate-400">无明显匹配项</span>'}</div>
+            <h4 class="text-[0.65rem] font-semibold uppercase tracking-widest text-zinc-400">已匹配关键词 / Matched</h4>
+            <div class="flex flex-wrap gap-2">${matched || '<span class="text-xs text-zinc-400">无明显匹配项</span>'}</div>
           </div>
           
           <div class="space-y-3">
-            <h4 class="text-sm font-medium text-slate-700 flex items-center gap-2">
-              <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-              建议补充关键词
-            </h4>
-            <div class="flex flex-wrap gap-2">${missing || '<span class="text-xs text-slate-400">无明显缺失项</span>'}</div>
+            <h4 class="text-[0.65rem] font-semibold uppercase tracking-widest text-zinc-400">建议补充技能 / Missing</h4>
+            <div class="flex flex-wrap gap-2">${missing || '<span class="text-xs text-zinc-400">无明显缺失项</span>'}</div>
           </div>
         </div>
       `;
@@ -282,7 +295,6 @@
       const el = document.getElementById(errorId);
       el.textContent = msg;
       el.classList.remove('hidden');
-
       const loadingId = errorId.replace('Error', 'Loading');
       document.getElementById(loadingId)?.classList.add('hidden');
     }
