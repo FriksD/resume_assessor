@@ -32,7 +32,7 @@ def extract_key_info(resume_text: str) -> dict:
     prompt = _PROMPT.format(resume_text=resume_text[:4000])
     response = Generation.call(
         api_key=api_key,
-        model="qwen-plus",
+        model="glm-4.7",
         messages=[{"role": "user", "content": prompt}],
         result_format="message",
     )
