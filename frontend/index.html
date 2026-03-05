@@ -38,15 +38,13 @@
         解析简历
       </button>
 
-      <!-- Parse result -->
+
       <div id="parseResult" class="hidden space-y-3">
         <div id="parseLoading" class="hidden text-center text-indigo-500 py-4 animate-pulse">正在解析中，请稍候…</div>
         <div id="parseError" class="hidden bg-red-50 text-red-600 rounded-xl p-4 text-sm"></div>
         <div id="extractedCards" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
       </div>
     </section>
-
-    <!-- ── Section 2: Job Match ── -->
     <section class="bg-white rounded-2xl shadow p-6 space-y-4">
       <h2 class="text-lg font-semibold text-gray-800">第二步：岗位匹配评分</h2>
 
@@ -59,7 +57,6 @@
         开始匹配评分
       </button>
 
-      <!-- Score result -->
       <div id="scoreResult" class="hidden space-y-4">
         <div id="scoreLoading" class="hidden text-center text-emerald-500 py-4 animate-pulse">AI 评分中，请稍候…</div>
         <div id="scoreError" class="hidden bg-red-50 text-red-600 rounded-xl p-4 text-sm"></div>
@@ -70,20 +67,18 @@
   </main>
 
   <script>
-    // ── Configuration ────────────────────────────────────────────────────────
-    // Replace this with your actual Aliyun FC URL after deployment.
+
     const API_BASE = 'https://resume-assessor-jjvpvorajq.cn-hangzhou.fcapp.run';
 
-    // ── State ────────────────────────────────────────────────────────────────
+
     let currentFileHash = null;
 
-    // ── File selection ───────────────────────────────────────────────────────
+
     function onFileSelected(input) {
       const label = document.getElementById('dropLabel');
       label.textContent = input.files[0] ? input.files[0].name : '点击选择或拖拽 PDF 文件至此';
     }
 
-    // Drag-and-drop support
     const dropZone = document.getElementById('dropZone');
     dropZone.addEventListener('click', () => document.getElementById('resumeFile').click());
     dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('bg-indigo-50'); });
@@ -101,7 +96,7 @@
       }
     });
 
-    // ── Parse resume ─────────────────────────────────────────────────────────
+    // 解析简历
     async function analyzeResume() {
       const input = document.getElementById('resumeFile');
       const file = input.files[0];
@@ -149,7 +144,7 @@
         `);
       }
 
-      // Project experience
+
       if (Array.isArray(info.project_experience) && info.project_experience.length > 0) {
         const items = info.project_experience.map(p => `<li class="text-sm text-gray-700">${escHtml(p)}</li>`).join('');
         container.insertAdjacentHTML('beforeend', `
@@ -169,7 +164,7 @@
       container.classList.remove('hidden');
     }
 
-    // ── Score resume ─────────────────────────────────────────────────────────
+    // 打分
     async function matchResume() {
       if (!currentFileHash) { alert('请先完成第一步：解析简历'); return; }
       const jd = document.getElementById('jobDescription').value.trim();
@@ -240,7 +235,6 @@
       container.classList.remove('hidden');
     }
 
-    // ── UI helpers ───────────────────────────────────────────────────────────
     function showSection(id) {
       document.getElementById(id).classList.remove('hidden');
     }
@@ -256,7 +250,6 @@
       el.textContent = msg;
       el.classList.remove('hidden');
 
-      // Hide sibling loading spinner
       const loadingId = errorId.replace('Error', 'Loading');
       document.getElementById(loadingId)?.classList.add('hidden');
     }

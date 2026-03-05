@@ -84,7 +84,25 @@ def score():
 
 def handler(environ, start_response):
     """WSGI-compatible handler for Aliyun Function Compute HTTP trigger."""
-    return app.wsgi_app(environ, start_response)
+    # Handle CORS preflight requests
+    if environ.get('REQUEST_METHOD') == 'OPTIONS':
+        headers = [
+            ('Content-Type', 'text/plain'),
+            ('Access-Control-Allow-Origin', '*'),
+            ('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'),
+            ('Access-Control-Allow-Headers', 'Content-Type'),
+        ]
+        start_response('200 OK', headers)
+        return [b'']
+
+    # Custom start_response to inject CORS headers
+    def cors_start_response(status, headers, exc_info=None):
+        headers.append(('Access-Control-Allow-Origin', '*'))
+        headers.append(('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'))
+        headers.append(('Access-Control-Allow-Headers', 'Content-Type'))
+        return start_response(status, headers, exc_info)
+
+    return app.wsgi_app(environ, cors_start_response)
 
 
 if __name__ == "__main__":
