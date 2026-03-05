@@ -4,8 +4,7 @@
 
 ## 在线体验
 
-- **前端页面**：`https://<your-username>.github.io/resume-assessor/`
-- **API 地址**：`https://<your-fc-domain>/`
+- **前端页面**：`https://friksd.github.io/resume-assessor/frontend`
 
 ---
 
@@ -98,91 +97,6 @@ resume-assessor/
 }
 ```
 
----
-
-## 本地运行
-
-```bash
-# 1. 安装依赖
-cd backend
-pip install -r requirements.txt
-
-# 2. 设置 DashScope API Key
-export DASHSCOPE_API_KEY=sk-xxxxx
-
-# 3. 启动 Flask 开发服务器
-python app.py
-# 服务运行在 http://localhost:5000
-
-# 4. 打开前端页面（本地验证）
-# 修改 frontend/index.html 中的 API_BASE 为 http://localhost:5000
-# 然后直接用浏览器打开 frontend/index.html
-```
-
----
-
-## 部署说明
-
-### A. 后端 → 阿里云函数计算 FC
-
-**前提条件：**
-- 阿里云账号，已开通函数计算服务
-- RAM 用户，具备 FC、OSS 相关权限
-- [通义千问 DashScope API Key](https://dashscope.aliyun.com/)
-
-```bash
-# 1. 安装 Serverless Devs CLI
-npm install -g @serverless-devs/s
-
-# 2. 配置阿里云凭据
-s config add \
-  --AccountID <your-account-id> \
-  --AccessKeyID <your-access-key-id> \
-  --AccessKeySecret <your-access-key-secret> \
-  -a default
-
-# 3. 设置 DashScope API Key（部署时注入为环境变量）
-export DASHSCOPE_API_KEY=sk-xxxxx
-# Windows: set DASHSCOPE_API_KEY=sk-xxxxx
-
-# 4. 部署
-cd backend
-s deploy --use-local -y
-
-# 5. 部署成功后记录输出的自定义域名，例如：
-#    http://resume-assessor.cn-hangzhou.fcapp.run
-
-# 6. 验证
-curl http://resume-assessor.cn-hangzhou.fcapp.run/health
-# 预期：{"status":"ok"}
-```
-
----
-
-### B. 前端 → GitHub Pages
-
-```bash
-# 1. 修改 frontend/index.html 第 96 行的 API_BASE：
-#    const API_BASE = 'http://resume-assessor.cn-hangzhou.fcapp.run';
-
-# 2. 在 GitHub 创建公开仓库（名称如 resume-assessor）
-
-# 3. 推送前端文件
-cd frontend
-git init
-git add index.html
-git commit -m "feat: initial frontend deploy"
-git branch -M main
-git remote add origin https://github.com/<your-username>/resume-assessor.git
-git push -u origin main
-
-# 4. 开启 GitHub Pages
-#    仓库 Settings → Pages → Source: Deploy from branch
-#    Branch: main，文件夹: / (root) → Save
-
-# 5. 约 1-2 分钟后访问：
-#    https://<your-username>.github.io/resume-assessor/
-```
 
 ---
 
@@ -197,26 +111,4 @@ git push -u origin main
 
 ---
 
-## 错误处理
 
-| 情形 | HTTP 状态 | 说明 |
-|------|-----------|------|
-| 未上传文件 | 400 | `{"error": "No file provided"}` |
-| 非 PDF 格式 | 400 | `{"error": "Only PDF files are supported"}` |
-| 扫描件/无文字 PDF | 422 | `{"error": "Could not extract text from PDF"}` |
-| AI 返回非 JSON | 200 | 降级返回 `{"raw_response": "...", "parse_error": true}` |
-| `file_hash` 不在缓存 | 404 | 提示用户重新上传解析 |
-
----
-
-## Git 提交规范
-
-本项目使用 Conventional Commits 规范：
-
-```
-feat:   新增功能
-fix:    Bug 修复
-docs:   文档更新
-refactor: 代码重构（不影响功能）
-chore:  构建/工具相关
-```
