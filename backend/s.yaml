@@ -1,0 +1,30 @@
+edition: 3.0.0
+name: resume-assessor
+
+resources:
+  resume-assessor-backend:
+    component: fc3
+    props:
+      region: cn-hangzhou
+      functionName: resume-assessor
+      description: AI Resume Assessor Backend
+      runtime: python3.10
+      handler: app.handler
+      timeout: 60
+      memorySize: 512
+      environmentVariables:
+        DASHSCOPE_API_KEY: ${env.DASHSCOPE_API_KEY}
+      code:
+        codeUri: ./
+      triggers:
+        - triggerName: http-trigger
+          triggerType: http
+          triggerConfig:
+            authType: anonymous
+            methods:
+              - GET
+              - POST
+              - OPTIONS
+      customDomains:
+        - domainName: auto
+          protocol: HTTP

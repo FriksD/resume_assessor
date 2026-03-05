@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 简历评估系统</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-indigo-600 text-white py-6 shadow">
+    <div class="max-w-3xl mx-auto px-4">
+      <h1 class="text-2xl font-bold">AI 简历评估系统</h1>
+      <p class="text-indigo-200 text-sm mt-1">上传简历 · 提取关键信息 · 智能岗位匹配</p>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 py-8 space-y-8">
+
+    <!-- ── Section 1: Upload & Parse ── -->
+    <section class="bg-white rounded-2xl shadow p-6 space-y-4">
+      <h2 class="text-lg font-semibold text-gray-800">第一步：上传并解析简历</h2>
+
+      <div class="flex items-center gap-3">
+        <label class="flex-1">
+          <div id="dropZone"
+               class="border-2 border-dashed border-indigo-300 rounded-xl p-6 text-center cursor-pointer hover:bg-indigo-50 transition">
+            <p class="text-indigo-500 font-medium" id="dropLabel">点击选择或拖拽 PDF 文件至此</p>
+            <p class="text-xs text-gray-400 mt-1">仅支持 PDF 格式</p>
+          </div>
+          <input id="resumeFile" type="file" accept=".pdf" class="hidden" onchange="onFileSelected(this)" />
+        </label>
+      </div>
+
+      <button onclick="analyzeResume()"
+              class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 rounded-xl transition">
+        解析简历
+      </button>
+
+      <!-- Parse result -->
+      <div id="parseResult" class="hidden space-y-3">
+        <div id="parseLoading" class="hidden text-center text-indigo-500 py-4 animate-pulse">正在解析中，请稍候…</div>
+        <div id="parseError" class="hidden bg-red-50 text-red-600 rounded-xl p-4 text-sm"></div>
+        <div id="extractedCards" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+      </div>
+    </section>
+
+    <!-- ── Section 2: Job Match ── -->
+    <section class="bg-white rounded-2xl shadow p-6 space-y-4">
+      <h2 class="text-lg font-semibold text-gray-800">第二步：岗位匹配评分</h2>
+
+      <textarea id="jobDescription" rows="5"
+                class="w-full border border-gray-300 rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
+                placeholder="请粘贴岗位描述（JD）……"></textarea>
+
+      <button onclick="matchResume()"
+              class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-xl transition">
+        开始匹配评分
+      </button>
+
+      <!-- Score result -->
+      <div id="scoreResult" class="hidden space-y-4">
+        <div id="scoreLoading" class="hidden text-center text-emerald-500 py-4 animate-pulse">AI 评分中，请稍候…</div>
+        <div id="scoreError" class="hidden bg-red-50 text-red-600 rounded-xl p-4 text-sm"></div>
+        <div id="scoreCards" class="hidden space-y-4"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // ── Configuration ────────────────────────────────────────────────────────
+    // Replace this with your actual Aliyun FC URL after deployment.
+    const API_BASE = 'https://REPLACE_WITH_YOUR_FC_URL';
+
+    // ── State ────────────────────────────────────────────────────────────────
+    let currentFileHash = null;
+
+    // ── File selection ───────────────────────────────────────────────────────
+    function onFileSelected(input) {
+      const label = document.getElementById('dropLabel');
+      label.textContent = input.files[0] ? input.files[0].name : '点击选择或拖拽 PDF 文件至此';
+    }
+
+    // Drag-and-drop support
+    const dropZone = document.getElementById('dropZone');
+    dropZone.addEventListener('click', () => document.getElementById('resumeFile').click());
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('bg-indigo-50'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('bg-indigo-50'));
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.classList.remove('bg-indigo-50');
+      const file = e.dataTransfer.files[0];
+      if (file && file.name.toLowerCase().endsWith('.pdf')) {
+        const input = document.getElementById('resumeFile');
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        input.files = dt.files;
+        onFileSelected(input);
+      }
+    });
+
+    // ── Parse resume ─────────────────────────────────────────────────────────
+    async function analyzeResume() {
+      const input = document.getElementById('resumeFile');
+      const file = input.files[0];
+      if (!file) { alert('请先选择一个 PDF 文件'); return; }
+
+      showSection('parseResult');
+      showLoading('parseLoading', 'parseError', 'extractedCards');
+
+      try {
+        const form = new FormData();
+        form.append('file', file);
+        const res = await fetch(`${API_BASE}/parse`, { method: 'POST', body: form });
+        const data = await res.json();
+
+        if (!res.ok) {
+          showError('parseError', data.error || '解析失败，请重试');
+          return;
+        }
+
+        currentFileHash = data.file_hash;
+        renderExtracted(data.extracted, data.cache_hit);
+      } catch (err) {
+        showError('parseError', '网络错误：' + err.message);
+      }
+    }
+
+    function renderExtracted(info, cacheHit) {
+      const container = document.getElementById('extractedCards');
+      container.innerHTML = '';
+
+      const labels = {
+        name: '姓名', phone: '电话', email: '邮箱', address: '地址',
+        job_intent: '求职意向', expected_salary: '期望薪资',
+        work_years: '工作年限', education: '学历背景',
+      };
+
+      for (const [key, label] of Object.entries(labels)) {
+        const val = info[key];
+        if (!val) continue;
+        container.insertAdjacentHTML('beforeend', `
+          <div class="bg-gray-50 rounded-xl p-3">
+            <p class="text-xs text-gray-400 mb-0.5">${label}</p>
+            <p class="text-sm text-gray-800 font-medium">${escHtml(String(val))}</p>
+          </div>
+        `);
+      }
+
+      // Project experience
+      if (Array.isArray(info.project_experience) && info.project_experience.length > 0) {
+        const items = info.project_experience.map(p => `<li class="text-sm text-gray-700">${escHtml(p)}</li>`).join('');
+        container.insertAdjacentHTML('beforeend', `
+          <div class="bg-gray-50 rounded-xl p-3 col-span-1 sm:col-span-2">
+            <p class="text-xs text-gray-400 mb-1">项目经历</p>
+            <ul class="list-disc list-inside space-y-0.5">${items}</ul>
+          </div>
+        `);
+      }
+
+      if (cacheHit) {
+        container.insertAdjacentHTML('beforeend', `
+          <p class="text-xs text-indigo-400 col-span-1 sm:col-span-2">（来自缓存，未重复调用 AI）</p>
+        `);
+      }
+
+      container.classList.remove('hidden');
+    }
+
+    // ── Score resume ─────────────────────────────────────────────────────────
+    async function matchResume() {
+      if (!currentFileHash) { alert('请先完成第一步：解析简历'); return; }
+      const jd = document.getElementById('jobDescription').value.trim();
+      if (!jd) { alert('请输入岗位描述'); return; }
+
+      showSection('scoreResult');
+      showLoading('scoreLoading', 'scoreError', 'scoreCards');
+
+      try {
+        const res = await fetch(`${API_BASE}/score`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ file_hash: currentFileHash, job_description: jd }),
+        });
+        const data = await res.json();
+
+        if (res.status === 404) {
+          showError('scoreError', '会话已过期，请重新上传并解析简历');
+          currentFileHash = null;
+          return;
+        }
+        if (!res.ok) {
+          showError('scoreError', data.error || '评分失败，请重试');
+          return;
+        }
+
+        renderScore(data);
+      } catch (err) {
+        showError('scoreError', '网络错误：' + err.message);
+      }
+    }
+
+    function renderScore(data) {
+      const score = Number(data.score) || 0;
+      const color = score >= 70 ? 'text-emerald-600' : score >= 40 ? 'text-yellow-500' : 'text-red-500';
+      const ring  = score >= 70 ? 'border-emerald-400' : score >= 40 ? 'border-yellow-400' : 'border-red-400';
+
+      const matched = (data.matched_keywords || []).map(k =>
+        `<span class="bg-emerald-100 text-emerald-700 text-xs px-2 py-0.5 rounded-full">${escHtml(k)}</span>`
+      ).join(' ');
+
+      const missing = (data.missing_keywords || []).map(k =>
+        `<span class="bg-red-100 text-red-600 text-xs px-2 py-0.5 rounded-full">${escHtml(k)}</span>`
+      ).join(' ');
+
+      const container = document.getElementById('scoreCards');
+      container.innerHTML = `
+        <!-- Score badge -->
+        <div class="flex items-center gap-6">
+          <div class="w-20 h-20 rounded-full border-4 ${ring} flex items-center justify-center shrink-0">
+            <span class="text-3xl font-bold ${color}">${score}</span>
+          </div>
+          <p class="text-gray-700 text-sm leading-relaxed">${escHtml(data.summary || '')}</p>
+        </div>
+
+        <!-- Matched keywords -->
+        ${matched ? `<div>
+          <p class="text-xs text-gray-400 mb-1">已匹配技能 / 关键词</p>
+          <div class="flex flex-wrap gap-1.5">${matched}</div>
+        </div>` : ''}
+
+        <!-- Missing keywords -->
+        ${missing ? `<div>
+          <p class="text-xs text-gray-400 mb-1">缺少的技能 / 关键词</p>
+          <div class="flex flex-wrap gap-1.5">${missing}</div>
+        </div>` : ''}
+      `;
+      container.classList.remove('hidden');
+    }
+
+    // ── UI helpers ───────────────────────────────────────────────────────────
+    function showSection(id) {
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function showLoading(loadingId, errorId, contentId) {
+      document.getElementById(loadingId).classList.remove('hidden');
+      document.getElementById(errorId).classList.add('hidden');
+      document.getElementById(contentId).classList.add('hidden');
+    }
+
+    function showError(errorId, msg) {
+      const el = document.getElementById(errorId);
+      el.textContent = msg;
+      el.classList.remove('hidden');
+
+      // Hide sibling loading spinner
+      const loadingId = errorId.replace('Error', 'Loading');
+      document.getElementById(loadingId)?.classList.add('hidden');
+    }
+
+    function escHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+</body>
+</html>
