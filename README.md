@@ -12,20 +12,19 @@
 
 ## 🏗 项目架构与体系
 
-系统整体结构极具轻量化，并在近期经历了深度的重构升级：
 
 ```text
 resume-assessor/
 ├── backend/
 │   ├── app.py           # 阿里云 FC3 裸函数入口 & 本地原生 HTTP 开发服务器
 │   ├── parser.py        # PDF 解析与文本清洗（依赖 pdfplumber）
-│   ├── extractor.py     # AI 高级关键信息提取（接入通义千问 qwen-plus）
+│   ├── extractor.py     # AI 关键信息提取（接入 MiniMax-M2.5）
 │   ├── scorer.py        # 提供基于大模型的 AI 简历 × 岗位（JD）匹配评分体系
-│   ├── cache.py         # 内存轻量级缓存（基于 MD5 Hash 文件指纹）
-│   ├── requirements.txt # 去除了 Flask 等冗余依赖，仅保留核心 AI 库
+│   ├── cache.py         # 内存缓存（基于 MD5 Hash 文件指纹）
+│   ├── requirements.txt # 方便在FC上一键安装依赖
 │   └── s.yaml           # Serverless Devs 一键部署配置文件
 ├── frontend/
-│   └── index.html       # 极致美感的前端单文件（基于 Tailwind CSS CDN + 原生 JS，新增交互动效与圆环进度反馈）
+│   └── index.html       # 前端单文件（基于 Tailwind CSS CDN + 原生 JS）
 └── README.md
 ```
 
@@ -111,15 +110,6 @@ resume-assessor/
   "summary": "候选人核心技能与岗位高度匹配，基础扎实，但在容器编排和消息队列底层原理相关经验略显薄弱。"
 }
 ```
-
----
-
-## 🚀 性能与缓存设计升级
-
-本项目在最近一次迭代去除了重型 Web 框架的支持，并优化内存交互逻辑：
-- **缓存追踪键**：被提取 PDF 文件的纯净文件流 `MD5 哈希`
-- **生命周期机制**：伴随 FC 进程的生成与实例回收，确保冷热数据的自然更替
-- **降本增效**：原生函数处理降低了服务冷启动加载的内存损耗与时间延长
 
 ---
 
