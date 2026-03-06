@@ -6,7 +6,7 @@
 
 ## 🌟 在线体验
 
-- **前端访问地址**：[`https://friksd.github.io/resume-assessor/frontend`](https://friksd.github.io/resume-assessor/frontend)
+- **前端访问地址**：[`https://friksd.github.io/resume_assessor/frontend`](https://friksd.github.io/resume_assessor/frontend)
 
 ---
 
