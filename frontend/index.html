@@ -84,8 +84,8 @@
 <body class="bg-[#fafafa] min-h-screen text-slate-800 selection:bg-slate-200 selection:text-slate-900 pb-20">
 
   <header class="bg-white/80 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 animate-fade-in-up">
-    <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2 sm:gap-3">
         <div class="w-10 h-10 rounded-lg bg-zinc-900 flex items-center justify-center text-white shadow-sm">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -111,11 +111,11 @@
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-6 py-10 space-y-8 relative z-10">
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-8 relative z-10">
 
     <!-- Section 01: Upload & Parsing -->
     <section
-      class="bg-white border border-slate-200/80 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] rounded-2xl p-8 sm:p-10 opacity-0 animate-fade-in-up stagger-1">
+      class="bg-white border border-slate-200/80 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] rounded-2xl p-5 sm:p-8 md:p-10 opacity-0 animate-fade-in-up stagger-1">
       <div class="mb-6 flex items-center justify-between border-b border-slate-100 pb-4">
         <h2 class="text-base font-semibold text-slate-900 flex items-center gap-2.5">
           <span
@@ -125,8 +125,8 @@
       </div>
 
       <label id="dropZone"
-        class="group block w-full border border-dashed border-slate-300 bg-slate-50/50 rounded-xl p-12 text-center cursor-pointer hover:bg-slate-50 hover:border-slate-400 transition-colors duration-200 mb-6 relative overflow-hidden">
-        <div class="flex flex-col items-center justify-center gap-4 relative z-10">
+        class="group block w-full border border-dashed border-slate-300 bg-slate-50/50 rounded-xl p-8 sm:p-12 text-center cursor-pointer hover:bg-slate-50 hover:border-slate-400 transition-colors duration-200 mb-6 relative overflow-hidden">
+        <div class="flex flex-col items-center justify-center gap-3 sm:gap-4 relative z-10">
           <div
             class="w-14 h-14 rounded-full bg-white border border-slate-200 flex items-center justify-center group-hover:scale-105 transition-transform duration-200 shadow-sm">
             <svg class="w-7 h-7 text-slate-400 group-hover:text-slate-600 transition-colors" fill="none"
@@ -184,7 +184,7 @@
               <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">基础信息</p>
             </div>
             <div id="basicInfoGrid"
-              class="grid grid-cols-2 lg:grid-cols-4 gap-y-6 gap-x-4 bg-slate-50/80 p-5 rounded-xl border border-slate-100">
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-5 sm:gap-y-6 gap-x-4 bg-slate-50/80 p-4 sm:p-5 rounded-xl border border-slate-100">
             </div>
           </div>
 
@@ -196,7 +196,8 @@
               </svg>
               <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">专业技能</p>
             </div>
-            <div id="skillsContainer" class="flex flex-wrap gap-2 p-5 rounded-xl border border-slate-100 bg-white">
+            <div id="skillsContainer"
+              class="flex flex-wrap gap-2 p-4 sm:p-5 rounded-xl border border-slate-100 bg-white">
             </div>
           </div>
 
@@ -208,7 +209,7 @@
               </svg>
               <p class="text-xs text-slate-500 font-semibold uppercase tracking-wider">所获奖项</p>
             </div>
-            <div class="p-5 rounded-xl border border-slate-100 bg-white">
+            <div class="p-4 sm:p-5 rounded-xl border border-slate-100 bg-white">
               <ul id="awardsContainer" class="list-disc list-inside space-y-1.5 text-sm text-slate-700"></ul>
             </div>
           </div>
@@ -229,8 +230,8 @@
 
     <!-- Section 02: Job Matching -->
     <section
-      class="bg-white border border-slate-200/80 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] rounded-2xl p-8 sm:p-10 opacity-0 animate-fade-in-up stagger-2">
-      <div class="mb-6 flex items-center justify-between border-b border-slate-100 pb-4">
+      class="bg-white border border-slate-200/80 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] rounded-2xl p-5 sm:p-8 md:p-10 opacity-0 animate-fade-in-up stagger-2">
+      <div class="mb-5 sm:mb-6 flex items-center justify-between border-b border-slate-100 pb-3 sm:pb-4">
         <h2 class="text-base font-semibold text-slate-900 flex items-center gap-2.5">
           <span
             class="w-7 h-7 rounded-md bg-slate-100 text-slate-600 flex items-center justify-center text-[0.8rem] font-bold">2</span>
@@ -238,10 +239,10 @@
         </h2>
       </div>
 
-      <div class="mb-6 flex flex-col gap-2">
+      <div class="mb-5 sm:mb-6 flex flex-col gap-2">
         <label for="jobDescription" class="text-sm font-medium text-slate-800">目标职位描述 (JD)</label>
         <textarea id="jobDescription" rows="6"
-          class="w-full bg-slate-50 border border-slate-200 rounded-xl p-5 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-slate-400 focus:bg-white transition-colors"
+          class="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 sm:p-5 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-slate-400 focus:bg-white transition-colors"
           placeholder="在此处输入或粘贴详细的岗位要求，系统将为您生成智能匹配报告..."></textarea>
       </div>
 
@@ -378,9 +379,9 @@
         if (!val) continue;
         hasBasic = true;
         basicContainer.insertAdjacentHTML('beforeend', `
-          <div class="group">
+          <div class="group min-w-0">
             <p class="text-[0.7rem] text-slate-500 font-medium mb-1">${label}</p>
-            <p class="text-sm text-slate-900 font-semibold">${escHtml(String(val))}</p>
+            <p class="text-sm text-slate-900 font-semibold break-all sm:break-words">${escHtml(String(val))}</p>
           </div>
         `);
       }
@@ -424,13 +425,13 @@
               : '';
 
             return `
-              <li class="bg-white border border-slate-200 rounded-xl p-5 hover:shadow-sm transition-shadow">
+              <li class="bg-white border border-slate-200 rounded-xl p-4 sm:p-5 hover:shadow-sm transition-shadow">
                 <p class="text-sm text-slate-900 font-semibold mb-1">${escHtml(title || '项目经历')}</p>
                 ${detailsHtml}
               </li>
             `;
           }
-          return `<li class="text-sm text-slate-700 bg-white border border-slate-200 rounded-xl p-5 hover:shadow-sm transition-shadow">${escHtml(project)}</li>`;
+          return `<li class="text-sm text-slate-700 bg-white border border-slate-200 rounded-xl p-4 sm:p-5 hover:shadow-sm transition-shadow">${escHtml(project)}</li>`;
         }).join('');
         projSec.classList.remove('hidden');
       } else {
@@ -495,9 +496,9 @@
 
       const container = document.getElementById('scoreCards');
       container.innerHTML = `
-        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 border border-slate-200 bg-slate-50/50 rounded-xl p-6 sm:p-8">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-6 border border-slate-200 bg-slate-50/50 rounded-xl p-5 sm:p-8">
           
-          <div class="relative w-24 h-24 shrink-0 flex items-center justify-center">
+          <div class="relative w-20 h-20 sm:w-24 sm:h-24 shrink-0 flex items-center justify-center">
             <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
               <circle cx="50" cy="50" r="40" fill="transparent" stroke="currentColor" stroke-width="8" class="text-slate-200"></circle>
               <circle cx="50" cy="50" r="40" fill="transparent" stroke="currentColor" stroke-width="8" class="${theme.ring} transition-all duration-1000 ease-out" 
